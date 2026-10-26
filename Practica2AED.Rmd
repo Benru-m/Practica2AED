@@ -107,7 +107,7 @@ Debido a que los puntos representados se solapan, es notorio que la información
 - Usando `labs()` añadiremos títulos explicativos al gráfico anterior.
 
 ```{r}
-grafico6 <- grafico6 + labs(title = "Dispersión de la temperatura y presión a las 9 a.m.",
+grafico6 <- grafico6 + labs(title = "Análisis de parámetros atmosféricos",
                             subtitle = "Relación entre temperatura y presión de un mismo día a las 9 a.m.",
                             x = "Temperatura a las 9 a.m.",
                             y = "Presión a las 9 a.m.",
@@ -180,4 +180,49 @@ Como `jitter` añade ruido a los puntos, ahora es más fácil distingir las agru
 - Por último, guardamos en la carpeta `results` el gráfico resultante del apartado anterior en el archivo `Ejercicio3.pdf`
 ```{r}
 ggsave('./results/Ejercicio3.pdf')
+```
+## Ejercicio 4
+
+- Primero cargamos las variables del fichero `Ejercicio4_Data.Rdata`.
+```{r}
+load("./data/Ejercicio4_Data.Rdata")
+```
+
+- Representamos un gráfico de puntos, en el que se muestre la fecha en el eje x
+ y las ventas en el eje y, siendo los datos de cada fabricante de un color distinto. Para ello primero usamos `str()` para comprobar las variables de `DatosEjer4`.
+ 
+```{r}
+str(DatosEjer4)
+```
+```{r}
+ejer4.grafico1 <- ggplot(data = DatosEjer4, aes(x = Fecha, y = Ventas, group = Fabricante))
+ejer4.grafico1 <- ejer4.grafico1 + geom_point(aes(colour = Fabricante))
+ejer4.grafico1
+```
+Con este gráfico sólo vemos la distribución de los puntos, pero no se puede seguir la evolución temporal de las ventas de cada fabricante. Para ello sería necesario usar `geom_line()`.
+
+- Añadimos `geom_line()` a la variable `ejer4.grafico1` para obtener un gráfico adecuado para analizar la evolución temporal de las ventas por fabricante.
+
+```{r}
+ejer4.grafico2 <- ejer4.grafico1 + geom_line(aes(colour = Fabricante))
+ejer4.grafico2
+```
+
+- Hacemos que la línea de cada fabricante sea de un tipo diferente.
+
+```{r}
+ejer4.grafico3 <- ejer4.grafico1 + geom_line(aes(linetype = Fabricante, colour = Fabricante))
+ejer4.grafico3
+```
+
+- Añadimos el título "Ventas mensuales de diferentes compañías tecnológicas" al gráfico.
+
+```{r}
+ejer4.grafico3 <- ejer4.grafico3 + ggtitle("Ventas mensuales de diferentes compañías tecnológicas")
+ejer4.grafico3
+```
+- Almacenamos el gráfico resultante en el archivo `Ejercicio4.pdf`, dentro de la carpeta `results`.
+
+```{r}
+ggsave("./results/Ejercicio4.pdf")
 ```
