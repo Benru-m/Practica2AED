@@ -121,3 +121,63 @@ grafico6
 ```{r}
 ggsave('./results/Ejercicio2.pdf')
 ```
+## Ejercicio 3
+
+- Cargamos con `load` las variables almacenadas en el fichero `iris_tidy.Rdata`.
+
+```{r}
+load("./data/iris_tidy.Rdata")
+```
+
+- Usando `str()` comprobamos las variables contenidas en `iris.tidy`.
+```{r}
+str(iris.tidy)
+```
+- Creamos un objeto ggplot denominado `iris.grafico1` en el que esté definido el conjunto de datos `iris.tidy` alojado en el fichero `iris.tidy.RData` y un aesthetics en el que en el eje x esté definida la variable `Species` y en el eje y esté definida la variable `Value`.
+ 
+```{r}
+iris.grafico1 <- ggplot(data = iris.tidy, aes(x = Species, y = Value))
+```
+
+- Le añadimos con `geom_point()` una capa para mostrar su gráfico de dispersión.
+
+```{r}
+iris.grafico1 <- iris.grafico1 + geom_point()
+iris.grafico1
+```
+
+Como `Species` es una variable categórica, notamos que los puntos se agrupan en tres columnas correspondientes a sus categorías.
+
+- A partir de `iris.grafico1` creamos una nueva variable `ìris.grafico2` en el que añadimos una capa de color según la variable categórica `Part`.
+
+```{r}
+iris.grafico2 <- iris.grafico1 + aes(colour = Part)
+iris.grafico2
+```
+
+- Usamos `facet_grid()` para hacer dos gráficos según el valor que tome la variable categórica `Measure`. Probamos primero colocándolos en columna.
+
+```{r}
+iris.grafico2 <- iris.grafico2 + facet_grid(Measure~.)
+iris.grafico2
+```
+Ahora probamos a colocarlos por fila.
+```{r}
+iris.grafico2 <- iris.grafico2 + facet_grid(.~Measure)
+iris.grafico2
+```
+
+Se puede notar fácilmente que colocándolos en fila se pueden comparar mejor ya que los puntos quedan agrupados en columnas.
+
+- Creamos un nuevo gráfico sustituyendo `geom_point()` por `geom_jitter()`
+```{r}
+iris.grafico3 <- ggplot(data = iris.tidy, aes(x = Species, y = Value, colour = Part))
+iris.grafico3 <- iris.grafico3 + geom_jitter() + facet_grid(.~Measure)
+iris.grafico3
+```
+Como `jitter` añade ruido a los puntos, ahora es más fácil distingir las agrupaciones que presentan y comparar entre gráficas.
+
+- Por último, guardamos en la carpeta `results` el gráfico resultante del apartado anterior en el archivo `Ejercicio3.pdf`
+```{r}
+ggsave('./results/Ejercicio3.pdf')
+```
