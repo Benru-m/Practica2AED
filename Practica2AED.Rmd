@@ -226,3 +226,44 @@ ejer4.grafico3
 ```{r}
 ggsave("./results/Ejercicio4.pdf")
 ```
+## Ejercicio 5
+
+- Cargamos el fichero `Experimento.Rdata`.
+
+```{r}
+load("./data/Experimento.Rdata")
+```
+
+Con `str()` comprobamos sus variables.
+
+```{r}
+str(Experimento)
+```
+- Representamos un gráfico de puntos, en el que se muestre la `Dosis` en el eje x
+ y la `Altura` en el eje y.Representamos los datos de cada `Complemento` se representen en una línea diferente con diferentes trazos incluyendo las opciones de tipo de línea y forma del punto dentro del aes() de la capa ggplot.
+`
+```{r}
+exp.grafico1 <- ggplot(data = Experimento, aes(x = Dosis, y = Altura, group = Complemento, linetype = Complemento, shape = Complemento))
+exp.grafico1 <- exp.grafico1 + geom_line() + geom_point()
+exp.grafico1
+```
+- Creamos otro gráfico a partir del anterior añadiendo barras de error en cada punto.
+
+```{r}
+exp.grafico2 <- exp.grafico1 + geom_errorbar(aes(ymin = Altura - Error_Altura, ymax = Altura + Error_Altura), position=position_dodge(0.05))
+exp.grafico2
+```
+
+- Creamos un nuevo gráfico idéntico sin incluir el tipo de línea y el tipo de punto en aes() de la capa ggplot. Además le añadimos una paleta de colores en tono rojo.
+
+```{r}
+exp.grafico3 <- ggplot(data = Experimento, aes(x = Dosis, y = Altura, group = Complemento))
+exp.grafico3 <- exp.grafico3 + geom_line(aes(linetype = Complemento)) + geom_point(aes(shape = Complemento))
+exp.grafico3 <- exp.grafico3 + geom_errorbar(aes(ymin = Altura - Error_Altura, ymax = Altura + Error_Altura), position=position_dodge(0.05))
+exp.grafico3 <- exp.grafico3 + scale_color_brewer(palette="Reds")
+exp.grafico3
+```
+- Guardamos el resultado en `Ejercicio5.pdf`.
+```{r}
+ggsave("./results/Ejercicio5.pdf")
+```
