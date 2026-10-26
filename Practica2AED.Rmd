@@ -1,0 +1,79 @@
+---
+title: "Práctica 2. Visualización de Datos"
+author: "Rubén Sánchez Munuera"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+always_allow_html: true
+params:
+  lang: ES
+lang: "`r switch(params$lang, ES = 'es-ES', EN = 'en-US')`"
+subtitle: "Análisis exploratorio de datos. Máster en Ciencia de Datos- UV"
+language:
+  label:
+    fig: 'Figura '
+    tab: 'Tabla '
+    eq: 'Ecuación '
+    thm: 'Teorema '
+    lem: 'Lema '
+    def: 'Definición '
+    cor: 'Corolario '
+    prp: 'Proposición '
+    exm: 'Ejemplo '
+    exr: 'Ejercicio '
+    proof: 'Demostración. '
+    remark: 'Nota: '
+    solution: 'Solución. '
+---
+
+Antes de empezar, cargamos los paquetes que vamos a utilizar.
+
+```{r}
+library(pacman)
+packages =  c("tidyverse", "knitr", "ggplot2", "datasets", "RColorBrewer",'latex2exp')
+pacman::p_load(char=packages)
+```
+
+## Ejercicio 1
+
+- Primero cargamos las variables contenidas en el fichero `weatherAUS.RData` usando la función `load`.
+
+```{r}
+load("./data/weatherAUS.RData")
+```
+
+- Ahora creamos un objeto ggplot en el que esté definido el conjunto de datos `ds`alojado en el fichero `weatherAUS.RData` y un aesthetics en el que en el eje x esté definida la variable `MinTemp` y en el eje y esté definida la variable `MaxTemp`.
+
+```{r}
+grafico1 <- ggplot(data = ds, aes(x = MinTemp, y = MaxTemp))
+```
+
+- Usando `geom_point()`añadimos una capa a `gráfico1`para construir un gráfico de dispersión.
+
+```{r}
+grafico1 <- grafico1 + geom_point()
+grafico1
+```
+
+- Ahora generamos el mismo gráfico y lo almacenamos en `grafico2` pero definiendo el aesthetics para visualizar las variables `MinTemp` y `MaxTemp` en los ejes de la gráfica y la variable categórica `RainTomorrow` como el color. A partir del objeto grafico2, representamos un gráfico de dispersión en el que se muestran los puntos con el color del punto correspondiente a la variable `RainTomorrow`.
+
+```{r}
+grafico2 <- grafico1 + aes(colour = RainTomorrow)
+grafico2
+```
+
+- Le añadimos a `grafico2` una capa para incluir un título con `ggtitle()` y lo guardamos en `grafico3`.
+
+```{r}
+grafico3 <- grafico2 + ggtitle("Gráfico de dispersión-Temperaturas min y max por predicción de lluvia")
+grafico3
+```
+
+- Por último, guardamos el gráfico resultante en formato pdf en el fichero `Ejercicio1.pdf` dentro de la carpeta `results`.
+
+```{r}
+ggsave('./results/Ejercicio1.pdf')
+```
