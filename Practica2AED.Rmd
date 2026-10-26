@@ -77,3 +77,47 @@ grafico3
 ```{r}
 ggsave('./results/Ejercicio1.pdf')
 ```
+
+## Ejercicio 2 
+
+- Utilizando ggplot, hacemos un grafico de dispersión representando las variables `Temp9am` y `Pressure9am` en los ejes x e y respectivamente.
+ 
+```{r}
+grafico4 <- ggplot(data = ds, aes(x = Temp9am, y = Pressure9am)) + geom_point()
+grafico4
+```
+ 
+- Modificamos el gráfico para cambiar la forma de los puntos según los valores de la variable categórica `RainToday`.
+ 
+```{r}
+grafico5 <- grafico4 + aes(shape = RainToday)
+grafico5
+```
+
+- Ahora, en vez de usar `RainToday` para cambiar la forma de los puntos, la usaremos para
+cambiar su color.
+
+```{r}
+grafico6 <- grafico4 + aes(colour = RainToday)
+grafico6
+```
+
+Debido a que los puntos representados se solapan, es notorio que la información proporcionada por `RainToday` se observa mejor si la usamos para representar el color.
+
+- Usando `labs()` añadiremos títulos explicativos al gráfico anterior.
+
+```{r}
+grafico6 <- grafico6 + labs(title = "Dispersión de la temperatura y presión a las 9 a.m.",
+                            subtitle = "Relación entre temperatura y presión de un mismo día a las 9 a.m.",
+                            x = "Temperatura a las 9 a.m.",
+                            y = "Presión a las 9 a.m.",
+                            colour = "Día de lluvia"
+)
+grafico6
+```
+
+- Por último, guardamos en formato pdf el gráfico resultante en el archivo `Ejercicio2.pdf` de la carpeta `results`.
+
+```{r}
+ggsave('./results/Ejercicio2.pdf')
+```
